@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dam Report: URUL | Krishna Basin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --success-color: #198754;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --info-color: #0dcaf0;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+        }
+        
+        body {
+            padding-top: 20px;
+            padding-bottom: 40px;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        
+        .dam-header {
+            padding: 30px 0;
+            margin-bottom: 30px;
+            background-color: var(--light-color);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding: 25px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section h2 {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            color: var(--primary-color);
+        }
+        
+        .card {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            height: 100%;
+        }
+        
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            background-color: rgba(0, 0, 0, 0.03);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-weight: 500;
+        }
+        
+        .data-card {
+            height: 100%;
+        }
+        
+        .chart-container {
+            margin-bottom: 20px;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 13px;
+            color: var(--secondary-color);
+        }
+        
+        .breadcrumb {
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .river-basin-badge {
+            background-color: var(--info-color);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            display: inline-block;
+            font-weight: 500;
+        }
+        
+        .excel-data-table {
+            font-size: 0.9rem;
+            border: none;
+        }
+        
+        .excel-data-table th {
+            width: 40%;
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+        
+        .excel-data-table tr:nth-child(odd) {
+            background-color: rgba(0, 0, 0, 0.01);
+        }
+        
+        .progress {
+            border-radius: 8px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .progress-bar{
+            font-weight: 500;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .metric-card {
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            height: 100%;
+        }
+        
+        .metric-card .stat-value {
+            color: var(--primary-color);
+        }
+        
+        .metric-card.primary .stat-value { color: var(--primary-color); }
+        .metric-card.success .stat-value { color: var(--success-color); }
+        .metric-card.warning .stat-value { color: var(--warning-color); }
+        .metric-card.danger .stat-value { color: var(--danger-color); }
+        .metric-card.info .stat-value { color: var(--info-color); }
+        
+        .parameter-table {
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .parameter-table th, .parameter-table td {
+            padding: 12px 15px;
+        }
+        
+        .parameter-table thead th {
+            background-color: rgba(13, 110, 253, 0.1);
+            color: var(--primary-color);
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+        
+        img.report-chart {
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .data-badge {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 5px;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="../../index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="../index.html">Krishna Basin</a></li>
+                <li class="breadcrumb-item active" aria-current="page">URUL</li>
+            </ol>
+        </nav>
+
+        <div class="dam-header text-center">
+            <div class="river-basin-badge mb-2">
+                <i class="bi bi-water"></i> Krishna River Basin
+            </div>
+            <h1>URUL</h1>
+        </div>
+
+        <div class="section" id="overview">
+            <h2><i class="bi bi-info-circle"></i> Dam Overview</h2>
+
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Key Information</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <p><strong>Dam ID:</strong> mh09mh1932</p>
+                                    <p><strong>Location:</strong> 17.691, 74.001</p>
+                                    <p><a href="https://www.google.com/maps?q=17.691,74.001" target="_blank" class="btn btn-sm btn-outline-primary">View on Google Maps</a></p>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <p><strong>Catchment Area:</strong> 302.96 km²</p>
+                                    <p><strong>Perimeter:</strong> 158.19 km</p>
+                                    <p><strong>Circularity Ratio:</strong> 0.152</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card data-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Basic Information</h5>
+                            <table class="table table-sm">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Dam Name:</th>
+                                        <td>URUL</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">River Basin:</th>
+                                        <td>Krishna</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">Location:</th>
+                                        <td>17.71527775995, 74.007500007206</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Map:</th>
+                                        <td><a href="https://www.google.com/maps?q=17.71527775995,74.007500007206" target="_blank">View on Google Maps</a></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">Station Id:</th>
+                                        <td>MH09MH1932_Urul</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">Full Name:</th>
+                                        <td>MH09MH1932_U</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card data-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Available Data</h5>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><i class="bi bi-cloud-sun"></i> <a href="#climatic">Climatic Data Available</a></li>
+                                <li class="list-group-item"><i class="bi bi-map"></i> <a href="#topographical">Topographical Data Available</a></li>
+                                <li class="list-group-item"><i class="bi bi-layers"></i> <a href="#geological">Geological Data Available</a></li>
+                                <li class="list-group-item"><i class="bi bi-tree"></i> <a href="#lulc">Land Use & Vegetation Data Available</a></li>
+                                <li class="list-group-item"><i class="bi bi-moisture"></i> <a href="#soil">Soil Data Available</a></li>
+                                <li class="list-group-item"><i class="bi bi-people"></i> <a href="#human-activity">Human Activity Data Available</a></li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="topographical">
+            <h2><i class="bi bi-map"></i> Topographical Data</h2>
+
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Elevation & Slope Characteristics</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+
+                                <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="metric-card primary">
+                                        <div class="mb-2"><i class="bi bi-arrow-up fs-3 text-primary"></i></div>
+                                        <h6 class="card-title">Max Elevation</h6>
+                                        <div class="stat-value">1457</div>
+                                        <div class="stat-label">m</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="metric-card info">
+                                        <div class="mb-2"><i class="bi bi-arrow-down fs-3 text-info"></i></div>
+                                        <h6 class="card-title">Min Elevation</h6>
+                                        <div class="stat-value">626</div>
+                                        <div class="stat-label">m</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="metric-card success">
+                                        <div class="mb-2"><i class="bi bi-dash fs-3 text-success"></i></div>
+                                        <h6 class="card-title">Mean Elevation</h6>
+                                        <div class="stat-value">859.39</div>
+                                        <div class="stat-label">m</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="metric-card warning">
+                                        <div class="mb-2"><i class="bi bi-graph-up fs-3 text-warning"></i></div>
+                                        <h6 class="card-title">Mean Slope</h6>
+                                        <div class="stat-value">19.993</div>
+                                        <div class="stat-label">m/km</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            
+                            <div class="mt-4">
+                                <h6>All Topographical Parameters</h6>
+                                <table class="table table-striped excel-data-table">
+                                    <tbody>
+
+                                        <tr>
+                                            <th scope="row">Minimum elvation (m) </th>
+                                            <td>626</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Maximum elevation (m)</th>
+                                            <td>1457</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Mean elevation (m)</th>
+                                            <td>859.39</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Mean slope (m/km)</th>
+                                            <td>19.993</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Catchment Area</h5>
+                        </div>
+                        <div class="card-body">
+                            <img src="images/catchment_URUL.webp" class="img-fluid" alt="Catchment Area">
+
+                            <div class="mt-3">
+                                <strong>Coordinates:</strong> 17.715278, 74.0075
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="climatic">
+            <h2><i class="bi bi-cloud-sun"></i> Climatic Data</h2>
+            
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Climate Characteristics</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+            
+                                    <div class="col-md-3 col-sm-6 mb-3">
+                                        <div class="metric-card primary">
+                                            <div class="mb-2"><i class="bi bi-cloud-rain fs-3 text-primary"></i></div>
+                                            <h6 class="card-title">Avg Precipitation</h6>
+                                            <div class="stat-value">2.011</div>
+                                            <div class="stat-label">mm/day</div>
+                                        </div>
+                                    </div>
+            
+                                    <div class="col-md-3 col-sm-6 mb-3">
+                                        <div class="metric-card danger">
+                                            <div class="mb-2"><i class="bi bi-thermometer-half fs-3 text-danger"></i></div>
+                                            <h6 class="card-title">Avg Temperature</h6>
+                                            <div class="stat-value">24.65</div>
+                                            <div class="stat-label">°C</div>
+                                        </div>
+                                    </div>
+            
+                                    <div class="col-md-3 col-sm-6 mb-3">
+                                        <div class="metric-card warning">
+                                            <div class="mb-2"><i class="bi bi-moisture fs-3 text-warning"></i></div>
+                                            <h6 class="card-title">Evaporation</h6>
+                                            <div class="stat-value">2.086</div>
+                                            <div class="stat-label">mm/day</div>
+                                        </div>
+                                    </div>
+            
+                                    <div class="col-md-3 col-sm-6 mb-3">
+                                        <div class="metric-card success">
+                                            <div class="mb-2"><i class="bi bi-wind fs-3 text-success"></i></div>
+                                            <h6 class="card-title">Max Wind Speed</h6>
+                                            <div class="stat-value">9.1</div>
+                                            <div class="stat-label">m/s</div>
+                                        </div>
+                                    </div>
+            
+                            </div>
+                            
+                            <div class="row mt-3 mb-4">
+
+                                <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title">High Precipitation Season</h6>
+                                            <p class="card-text">3</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title">Low Precipitation Season</h6>
+                                            <p class="card-text">2</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title">Aridity Index</h6>
+                                            <p class="card-text">0.438</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title">1-Day Max Precipitation</h6>
+                                            <p class="card-text">146.1 mm</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+    <div class="mt-4">
+        <h6 class="mb-3">All Climate Parameters</h6>
+        <table class="table table-striped parameter-table">
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <th scope="row">Mean precipitation rate (mm/day)</th>
+                    <td>2.011</td>
+                </tr>
+
+                <tr>
+                    <th scope="row">Maximum Tempearture (0C)</th>
+                    <td>30.472</td>
+                </tr>
+
+                <tr>
+                    <th scope="row">Minimum Temperature ( 0C)</th>
+                    <td>18.828</td>
+                </tr>
+
+                <tr>
+                    <th scope="row">Mean Temperature ( 0C)</th>
+                    <td>24.65</td>
+                </tr>
+
+                <tr>
+                    <th scope="row">High precipitation frequency (days/year)</th>
+                    <td>21.464</td>
+                </tr>
+
+                <tr>
+                    <th scope="row">Low precipitation frequency (days/year)</th>
+                    <td>276.014</td>
+                </tr>
+
+                <tr>
+                    <th scope="row">High precipitation season</th>
+                    <td>3</td>
+                </tr>
+
+                <tr>
+                    <th scope="row">Low precipitation season</th>
+                    <td>2</td>
+                </tr>
+
+                <tr>
+                    <th scope="row">High precipitation spell (days)</th>
+                    <td>1.757</td>
+                </tr>
+
+                <tr>
+                    <th scope="row">Low precipitation spell (days)</th>
+                    <td>10.401</td>
+                </tr>
+
+                <tr>
+                    <th scope="row">Aridity Index</th>
+                    <td>0.438</td>
+                </tr>
+
+                <tr>
+                    <th scope="row">Seasonality</th>
+                    <td>0.99</td>
+                </tr>
+
+                <tr>
+                    <th scope="row">Maximum Wind Speed (m/s)</th>
+                    <td>9.1</td>
+                </tr>
+
+                <tr>
+                    <th scope="row">Evaporation (mm/day)</th>
+                    <td>2.086</td>
+                </tr>
+
+                <tr>
+                    <th scope="row">PET (mm/day)</th>
+                    <td>4.593</td>
+                </tr>
+
+                <tr>
+                    <th scope="row">1 day Maximum Precipitation (mm)</th>
+                    <td>146.1</td>
+                </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-4">
+
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <h6 class="card-title">Avg Precipitation</h6>
+                            <div class="stat-value text-primary">2.66 mm</div>
+                            <div class="stat-label">Range: 0.0 - 194.19 mm</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <h6 class="card-title">Avg Evaporation</h6>
+                            <div class="stat-value text-warning">2.1</div>
+                            <div class="stat-label">Range: 0.27 - 4.64</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <h6 class="card-title">Avg Temperature</h6>
+                            <div class="stat-value text-danger">29.28°C</div>
+                            <div class="stat-label">Min: 18.74°C</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <h6 class="card-title">Avg Wind Speed</h6>
+                            <div class="stat-value text-success">2.72</div>
+                            <div class="stat-label">Range: 0.49 - 9.1</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Yearly Average Precipitation</h5>
+                        </div>
+                        <div class="card-body">
+                            <img src="images/precip_URUL.webp" class="img-fluid" alt="Yearly Average Precipitation">
+                            <p class="mt-2">Annual average precipitation values measured in millimeters.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Yearly Average Evaporation</h5>
+                        </div>
+                        <div class="card-body">
+                            <img src="images/evap_URUL.webp" class="img-fluid" alt="Yearly Average Evaporation">
+                            <p class="mt-2">Annual average evaporation measurements.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Yearly Average Wind Speed</h5>
+                        </div>
+                        <div class="card-body">
+                            <img src="images/wind_URUL.webp" class="img-fluid" alt="Yearly Average Wind Speed">
+                            <p class="mt-2">Annual average wind speed measurements.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Yearly Average Temperatures</h5>
+                        </div>
+                        <div class="card-body">
+                            <img src="images/temp_URUL.webp" class="img-fluid" alt="Yearly Average Temperatures">
+                            <p class="mt-2">Annual average maximum and minimum temperature values in degrees Celsius.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="geological">
+            <h2><i class="bi bi-layers"></i> Geological Data</h2>
+
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Lithology & Subsurface Characteristics</h5>
+                        </div>
+                        <div class="card-body">
+
+                            <div class="row mb-4">
+                                <div class="col-md-6 mb-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h6>Dominant Lithology</h6>
+                                            <p class="mb-1"><strong>2</strong></p>
+                                            <p><small>Coverage: 1</small></p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+
+                                <div class="col-md-4 mb-3">
+                                    <div class="card text-center h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title">Subsurface Permeability</h6>
+                                            <div class="stat-value text-info">-12.5</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <div class="card text-center h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title">Subsurface Porosity</h6>
+                                            <div class="stat-value text-info">0.09</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <div class="card text-center h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title">Groundwater Mean Level</h6>
+                                            <div class="stat-value text-info">2.357</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            
+                            <div class="mt-4">
+                                <h6>All Geological Parameters</h6>
+                                <table class="table table-striped excel-data-table">
+                                    <tbody>
+
+                                        <tr>
+                                            <th scope="row">Dominant lithological class</th>
+                                            <td>2</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Area covered by dominant lithological class</th>
+                                            <td>1</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">subsurface permeability (m2, logscale)</th>
+                                            <td>-12.5</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">subsurface porosity</th>
+                                            <td>0.09</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">groundwater mean level (m)</th>
+                                            <td>2.357</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Groundwater Analysis</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <img src="images/groundwater_URUL.webp" class="img-fluid" alt="Groundwater Time Series">
+                            <p class="mt-2">Annual average groundwater level measurements in the dam area.</p>
+                            <div class="row mt-3">
+                                <div class="col-md-4">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <h6>Average Level</h6>
+                                            <div class="stat-value text-primary">2.35</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <h6>Maximum Level</h6>
+                                            <div class="stat-value text-success">3.97</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <h6>Minimum Level</h6>
+                                            <div class="stat-value text-danger">1.1</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="lulc">
+            <h2><i class="bi bi-tree"></i> Land Use & Vegetation Data</h2>
+
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Land Use / Land Cover Characteristics</h5>
+                        </div>
+                        <div class="card-body">
+
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <h6>Dominant Land Use Class</h6>
+                                            <div class="stat-value text-success">2</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <h6>Land Cover Composition</h6>
+                                    <div class="progress" style="height: 30px;">
+
+                                    <div class="progress-bar" role="progressbar" style="width: 43.8%; background-color: #83c995;" 
+                                        aria-valuenow="43.8" aria-valuemin="0" aria-valuemax="100" 
+                                        title="Agriculture: 0.438">
+                                        Agriculture
+                                    </div>
+
+                                    <div class="progress-bar" role="progressbar" style="width: 27.3%; background-color: #2d8659;" 
+                                        aria-valuenow="27.3" aria-valuemin="0" aria-valuemax="100" 
+                                        title="Forest: 0.273">
+                                        Forest
+                                    </div>
+
+                                    <div class="progress-bar" role="progressbar" style="width: 0.0%; background-color: #b3cf80;" 
+                                        aria-valuenow="0.0" aria-valuemin="0" aria-valuemax="100" 
+                                        title="Grassland: 0.0">
+                                        
+                                    </div>
+
+                                    <div class="progress-bar" role="progressbar" style="width: 21.5%; background-color: #d8b365;" 
+                                        aria-valuenow="21.5" aria-valuemin="0" aria-valuemax="100" 
+                                        title="Scrub: 0.215">
+                                        Scrub
+                                    </div>
+
+                                    <div class="progress-bar" role="progressbar" style="width: 1.7%; background-color: #a6611a;" 
+                                        aria-valuenow="1.7" aria-valuemin="0" aria-valuemax="100" 
+                                        title="Built-up: 0.017">
+                                        
+                                    </div>
+
+                                    <div class="progress-bar" role="progressbar" style="width: 5.7%; background-color: #5ab4ac;" 
+                                        aria-valuenow="5.7" aria-valuemin="0" aria-valuemax="100" 
+                                        title="Water: 0.057">
+                                        
+                                    </div>
+
+                                </div>
+                                <div class="mt-3 small">
+                                    <div class="row">
+
+                                        <div class="col-6 col-md-4 col-lg-2 mb-2">
+                                            <span class="badge p-1 me-1" style="background-color: #83c995">&nbsp;</span>
+                                            <span>Agriculture: 0.438</span>
+                                        </div>
+
+                                        <div class="col-6 col-md-4 col-lg-2 mb-2">
+                                            <span class="badge p-1 me-1" style="background-color: #2d8659">&nbsp;</span>
+                                            <span>Forest: 0.273</span>
+                                        </div>
+
+                                        <div class="col-6 col-md-4 col-lg-2 mb-2">
+                                            <span class="badge p-1 me-1" style="background-color: #b3cf80">&nbsp;</span>
+                                            <span>Grassland: 0</span>
+                                        </div>
+
+                                        <div class="col-6 col-md-4 col-lg-2 mb-2">
+                                            <span class="badge p-1 me-1" style="background-color: #d8b365">&nbsp;</span>
+                                            <span>Scrub: 0.215</span>
+                                        </div>
+
+                                        <div class="col-6 col-md-4 col-lg-2 mb-2">
+                                            <span class="badge p-1 me-1" style="background-color: #a6611a">&nbsp;</span>
+                                            <span>Built-up: 0.017</span>
+                                        </div>
+
+                                        <div class="col-6 col-md-4 col-lg-2 mb-2">
+                                            <span class="badge p-1 me-1" style="background-color: #5ab4ac">&nbsp;</span>
+                                            <span>Water: 0.057</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <h6>Seasonal NDVI Values</h6>
+                                    <div class="row">
+
+                                        <div class="col-md-3 col-sm-6 mb-3">
+                                            <div class="card text-center h-100">
+                                                <div class="card-body">
+                                                    <h6 class="card-title">Winter (DJF)</h6>
+                                                    <div class="stat-value text-success">0.279</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 col-sm-6 mb-3">
+                                            <div class="card text-center h-100">
+                                                <div class="card-body">
+                                                    <h6 class="card-title">Spring (MAM)</h6>
+                                                    <div class="stat-value text-success">0.2</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 col-sm-6 mb-3">
+                                            <div class="card text-center h-100">
+                                                <div class="card-body">
+                                                    <h6 class="card-title">Summer (JJA)</h6>
+                                                    <div class="stat-value text-success">0.109</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 col-sm-6 mb-3">
+                                            <div class="card text-center h-100">
+                                                <div class="card-body">
+                                                    <h6 class="card-title">Fall (SON)</h6>
+                                                    <div class="stat-value text-success">0.256</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <h6>All Land Use & Vegetation Parameters</h6>
+                                <table class="table table-striped excel-data-table">
+                                    <tbody>
+
+                                        <tr>
+                                            <th scope="row">Dominant LULC class</th>
+                                            <td>2</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Fraction of Buildup </th>
+                                            <td>0.017</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Fraction of agriculture</th>
+                                            <td>0.438</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Fraction of Forest</th>
+                                            <td>0.273</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Fraction of Grassland</th>
+                                            <td>0</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Fraction of Scrub</th>
+                                            <td>0.215</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Fraction of water </th>
+                                            <td>0.057</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">NDVI DJF</th>
+                                            <td>0.279</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">NDVI MAM</th>
+                                            <td>0.2</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">NDVI JJA</th>
+                                            <td>0.109</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">NDVI SON</th>
+                                            <td>0.256</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Vegetation Index (NDVI) Analysis</h5>
+                        </div>
+                        <div class="card-body">
+                            <img src="images/ndvi_URUL.webp" class="img-fluid" alt="NDVI Time Series">
+                            <p class="mt-2">Normalized Difference Vegetation Index (NDVI) annual averages. Higher values indicate denser vegetation.</p>
+                            <div class="row mt-3">
+                                <div class="col-md-4">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <h6>Average NDVI</h6>
+                                            <div class="stat-value text-success">0.22</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <h6>Maximum NDVI</h6>
+                                            <div class="stat-value text-success">0.34</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <h6>Minimum NDVI</h6>
+                                            <div class="stat-value text-warning">0.15</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="soil">
+            <h2><i class="bi bi-moisture"></i> Soil Characteristics</h2>
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Soil Composition</h5>
+                        </div>
+                        <div class="card-body">
+
+                            <div class="row mb-4">
+                                <div class="col-lg-6 col-md-8 mx-auto">
+                                    <h6 class="text-center mb-3">Soil Texture Composition</h6>
+                                    <div class="progress" style="height: 30px;">
+
+                                        <div class="progress-bar" role="progressbar" 
+                                            style="width: 35.7%; background-color: #d8b365;" 
+                                            aria-valuenow="35.7" aria-valuemin="0" aria-valuemax="100" 
+                                            title="Sand: 35.715%">
+                                            Sand
+                                        </div>
+
+                                        <div class="progress-bar" role="progressbar" 
+                                            style="width: 21.9%; background-color: #d3d3d3;" 
+                                            aria-valuenow="21.9" aria-valuemin="0" aria-valuemax="100" 
+                                            title="Silt: 21.915%">
+                                            Silt
+                                        </div>
+
+                                        <div class="progress-bar" role="progressbar" 
+                                            style="width: 42.4%; background-color: #5ab4ac;" 
+                                            aria-valuenow="42.4" aria-valuemin="0" aria-valuemax="100" 
+                                            title="Clay: 42.37%">
+                                            Clay
+                                        </div>
+
+                                    </div>
+                                    <div class="mt-2 text-center small">
+
+                                        <span class="me-3">
+                                            <span class="badge p-1 me-1" style="background-color: #d8b365">&nbsp;</span>
+                                            <span>Sand: 35.715%</span>
+                                        </span>
+
+                                        <span class="me-3">
+                                            <span class="badge p-1 me-1" style="background-color: #d3d3d3">&nbsp;</span>
+                                            <span>Silt: 21.915%</span>
+                                        </span>
+
+                                        <span class="me-3">
+                                            <span class="badge p-1 me-1" style="background-color: #5ab4ac">&nbsp;</span>
+                                            <span>Clay: 42.37%</span>
+                                        </span>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+
+                                <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="card text-center h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title">Available Water Capacity</h6>
+                                            <div class="stat-value text-primary">141.5</div>
+                                            <div class="stat-label">mm</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="card text-center h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title">Conductivity</h6>
+                                            <div class="stat-value text-primary">472.8</div>
+                                            <div class="stat-label">mm/day</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="card text-center h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title">Porosity</h6>
+                                            <div class="stat-value text-primary">0.484</div>
+                                            <div class="stat-label"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="card text-center h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title">Organic Carbon</h6>
+                                            <div class="stat-value text-primary">0.476</div>
+                                            <div class="stat-label">g/kg</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            
+                            <div class="mt-4">
+                                <h6>All Soil Parameters</h6>
+                                <table class="table table-striped excel-data-table">
+                                    <tbody>
+
+                                        <tr>
+                                            <th scope="row">Coarse content (volume,%)</th>
+                                            <td>13.19</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Sand content (%)</th>
+                                            <td>35.715</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Silt content (%)</th>
+                                            <td>21.915</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Clay content (%)</th>
+                                            <td>42.37</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Organic carbon content (g/kg)</th>
+                                            <td>0.476</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">AWC (mm)</th>
+                                            <td>141.5</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Conductivity (mm/day)</th>
+                                            <td>472.8</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Porosity</th>
+                                            <td>0.484</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Maximum water content (m)</th>
+                                            <td>0.435</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">bulk density (kg m-3 )</th>
+                                            <td>1386.667</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="human-activity">
+            <h2><i class="bi bi-people"></i> Human Activity</h2>
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Anthropogenic Factors</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+
+                                <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="card text-center h-100">
+                                        <div class="card-body">
+                                            <div class="mb-2"><i class="bi bi-person fs-3 text-secondary"></i></div>
+                                            <h6 class="card-title">Population</h6>
+                                            <div class="stat-value text-primary">103680</div>
+                                            <div class="stat-label"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="card text-center h-100">
+                                        <div class="card-body">
+                                            <div class="mb-2"><i class="bi bi-signpost-split fs-3 text-secondary"></i></div>
+                                            <h6 class="card-title">Road Density</h6>
+                                            <div class="stat-value text-primary">535</div>
+                                            <div class="stat-label">m/km²</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="card text-center h-100">
+                                        <div class="card-body">
+                                            <div class="mb-2"><i class="bi bi-footprint fs-3 text-secondary"></i></div>
+                                            <h6 class="card-title">Human Footprint</h6>
+                                            <div class="stat-value text-primary">19.621</div>
+                                            <div class="stat-label"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="card text-center h-100">
+                                        <div class="card-body">
+                                            <div class="mb-2"><i class="bi bi-lightbulb fs-3 text-secondary"></i></div>
+                                            <h6 class="card-title">Stable Light</h6>
+                                            <div class="stat-value text-primary">6.765</div>
+                                            <div class="stat-label"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            
+                            <div class="mt-4">
+                                <h6>All Human Activity Parameters</h6>
+                                <table class="table table-striped excel-data-table">
+                                    <tbody>
+
+                                        <tr>
+                                            <th scope="row">road density (m/km2)</th>
+                                            <td>535</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">population</th>
+                                            <td>103680</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">human_footprint</th>
+                                            <td>19.621</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">stable light</th>
+                                            <td>6.765</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="pt-3 my-4 text-muted border-top">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>Report generated on 2025-05-20 at 14:16:51</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>HydroLab Dam Analysis Project</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

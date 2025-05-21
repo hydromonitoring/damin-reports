@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dam Report: NEEMGAON_TANK | Brahmani Basin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --success-color: #198754;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --info-color: #0dcaf0;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+        }
+        
+        body {
+            padding-top: 20px;
+            padding-bottom: 40px;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        
+        .dam-header {
+            padding: 30px 0;
+            margin-bottom: 30px;
+            background-color: var(--light-color);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding: 25px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section h2 {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            color: var(--primary-color);
+        }
+        
+        .card {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            height: 100%;
+        }
+        
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            background-color: rgba(0, 0, 0, 0.03);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-weight: 500;
+        }
+        
+        .data-card {
+            height: 100%;
+        }
+        
+        .chart-container {
+            margin-bottom: 20px;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 13px;
+            color: var(--secondary-color);
+        }
+        
+        .breadcrumb {
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .river-basin-badge {
+            background-color: var(--info-color);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            display: inline-block;
+            font-weight: 500;
+        }
+        
+        .excel-data-table {
+            font-size: 0.9rem;
+            border: none;
+        }
+        
+        .excel-data-table th {
+            width: 40%;
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+        
+        .excel-data-table tr:nth-child(odd) {
+            background-color: rgba(0, 0, 0, 0.01);
+        }
+        
+        .progress {
+            border-radius: 8px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .progress-bar{
+            font-weight: 500;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .metric-card {
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            height: 100%;
+        }
+        
+        .metric-card .stat-value {
+            color: var(--primary-color);
+        }
+        
+        .metric-card.primary .stat-value { color: var(--primary-color); }
+        .metric-card.success .stat-value { color: var(--success-color); }
+        .metric-card.warning .stat-value { color: var(--warning-color); }
+        .metric-card.danger .stat-value { color: var(--danger-color); }
+        .metric-card.info .stat-value { color: var(--info-color); }
+        
+        .parameter-table {
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .parameter-table th, .parameter-table td {
+            padding: 12px 15px;
+        }
+        
+        .parameter-table thead th {
+            background-color: rgba(13, 110, 253, 0.1);
+            color: var(--primary-color);
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+        
+        img.report-chart {
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .data-badge {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 5px;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="../../index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="../index.html">Brahmani Basin</a></li>
+                <li class="breadcrumb-item active" aria-current="page">NEEMGAON_TANK</li>
+            </ol>
+        </nav>
+
+        <div class="dam-header text-center">
+            <div class="river-basin-badge mb-2">
+                <i class="bi bi-water"></i> Brahmani River Basin
+            </div>
+            <h1>NEEMGAON_TANK</h1>
+        </div>
+
+        <div class="section" id="overview">
+            <h2><i class="bi bi-info-circle"></i> Dam Overview</h2>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card data-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Basic Information</h5>
+                            <table class="table table-sm">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Dam Name:</th>
+                                        <td>NEEMGAON_TANK</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">River Basin:</th>
+                                        <td>Brahmani</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">Location:</th>
+                                        <td>22.960555541924, 84.175833348674</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Map:</th>
+                                        <td><a href="https://www.google.com/maps?q=22.960555541924,84.175833348674" target="_blank">View on Google Maps</a></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">Station Id:</th>
+                                        <td>CG03LH0199_NEEMGAON_TANk</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">Full Name:</th>
+                                        <td>CG03LH0199_N</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card data-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Available Data</h5>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><i class="bi bi-cloud-sun"></i> <a href="#climatic">Climatic Data Available</a></li>
+                                <li class="list-group-item"><i class="bi bi-map"></i> <a href="#topographical">Topographical Data Available</a></li>
+                                <li class="list-group-item"><i class="bi bi-layers"></i> <a href="#geological">Geological Data Available</a></li>
+                                <li class="list-group-item"><i class="bi bi-tree"></i> <a href="#lulc">Land Use & Vegetation Data Available</a></li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="topographical">
+            <h2><i class="bi bi-map"></i> Topographical Data</h2>
+
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Catchment Area</h5>
+                        </div>
+                        <div class="card-body">
+                            <img src="images/catchment_NEEMGAON_TANK.webp" class="img-fluid" alt="Catchment Area">
+
+                            <div class="mt-3">
+                                <strong>Coordinates:</strong> 22.960556, 84.175833
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="climatic">
+            <h2><i class="bi bi-cloud-sun"></i> Climatic Data</h2>
+            
+            <div class="row mb-4">
+
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <h6 class="card-title">Avg Precipitation</h6>
+                            <div class="stat-value text-primary">4.07 mm</div>
+                            <div class="stat-label">Range: 0.0 - 153.61 mm</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <h6 class="card-title">Avg Evaporation</h6>
+                            <div class="stat-value text-warning">2.32</div>
+                            <div class="stat-label">Range: 0.39 - 5.48</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <h6 class="card-title">Avg Temperature</h6>
+                            <div class="stat-value text-danger">29.06°C</div>
+                            <div class="stat-label">Min: 18.3°C</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <h6 class="card-title">Avg Wind Speed</h6>
+                            <div class="stat-value text-success">1.99</div>
+                            <div class="stat-label">Range: 0.5 - 8.59</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Yearly Average Precipitation</h5>
+                        </div>
+                        <div class="card-body">
+                            <img src="images/precip_NEEMGAON_TANK.webp" class="img-fluid" alt="Yearly Average Precipitation">
+                            <p class="mt-2">Annual average precipitation values measured in millimeters.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Yearly Average Evaporation</h5>
+                        </div>
+                        <div class="card-body">
+                            <img src="images/evap_NEEMGAON_TANK.webp" class="img-fluid" alt="Yearly Average Evaporation">
+                            <p class="mt-2">Annual average evaporation measurements.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Yearly Average Wind Speed</h5>
+                        </div>
+                        <div class="card-body">
+                            <img src="images/wind_NEEMGAON_TANK.webp" class="img-fluid" alt="Yearly Average Wind Speed">
+                            <p class="mt-2">Annual average wind speed measurements.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Yearly Average Temperatures</h5>
+                        </div>
+                        <div class="card-body">
+                            <img src="images/temp_NEEMGAON_TANK.webp" class="img-fluid" alt="Yearly Average Temperatures">
+                            <p class="mt-2">Annual average maximum and minimum temperature values in degrees Celsius.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="geological">
+            <h2><i class="bi bi-layers"></i> Geological Data</h2>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Groundwater Analysis</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <img src="images/groundwater_NEEMGAON_TANK.webp" class="img-fluid" alt="Groundwater Time Series">
+                            <p class="mt-2">Annual average groundwater level measurements in the dam area.</p>
+                            <div class="row mt-3">
+                                <div class="col-md-4">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <h6>Average Level</h6>
+                                            <div class="stat-value text-primary">5.22</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <h6>Maximum Level</h6>
+                                            <div class="stat-value text-success">6.98</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <h6>Minimum Level</h6>
+                                            <div class="stat-value text-danger">3.49</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="lulc">
+            <h2><i class="bi bi-tree"></i> Land Use & Vegetation Data</h2>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Vegetation Index (NDVI) Analysis</h5>
+                        </div>
+                        <div class="card-body">
+                            <img src="images/ndvi_NEEMGAON_TANK.webp" class="img-fluid" alt="NDVI Time Series">
+                            <p class="mt-2">Normalized Difference Vegetation Index (NDVI) annual averages. Higher values indicate denser vegetation.</p>
+                            <div class="row mt-3">
+                                <div class="col-md-4">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <h6>Average NDVI</h6>
+                                            <div class="stat-value text-success">0.25</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <h6>Maximum NDVI</h6>
+                                            <div class="stat-value text-success">0.39</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <h6>Minimum NDVI</h6>
+                                            <div class="stat-value text-warning">0.16</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="pt-3 my-4 text-muted border-top">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>Report generated on 2025-05-20 at 17:08:04</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>HydroLab Dam Analysis Project</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
