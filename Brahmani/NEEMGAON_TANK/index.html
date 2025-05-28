@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catchment Report: NEEMGAON_TANK | Brahmani Basin</title>
+    <title>Dam Report: NEEMGAON_TANK | Brahmani Basin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <style>
@@ -197,6 +197,13 @@
             </ol>
         </nav>
 
+        <!-- Add Download as PDF Button -->
+        <div style="position: fixed; bottom: 30px; right: 30px; z-index: 9999;">
+            <button id="download-pdf-btn" class="btn btn-danger btn-lg shadow">
+                <i class="bi bi-file-earmark-pdf"></i> Download as PDF
+            </button>
+        </div>
+
         <div class="dam-header text-center">
             <div class="river-basin-badge mb-2">
                 <i class="bi bi-water"></i> Brahmani River Basin
@@ -205,7 +212,7 @@
         </div>
 
         <div class="section" id="overview">
-            <h2><i class="bi bi-info-circle"></i> Catchment Overview</h2>
+            <h2><i class="bi bi-info-circle"></i> Dam Overview</h2>
 
             <div class="row">
                 <div class="col-md-6">
@@ -225,21 +232,11 @@
 
                                     <tr>
                                         <th scope="row">Location:</th>
-                                        <td>22.960555541924, 84.175833348674</td>
+                                        <td>22.961, 84.176</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Map:</th>
                                         <td><a href="https://www.google.com/maps?q=22.960555541924,84.175833348674" target="_blank">View on Google Maps</a></td>
-                                    </tr>
-
-                                    <tr>
-                                        <th scope="row">Station Id:</th>
-                                        <td>CG03LH0199_NEEMGAON_TANk</td>
-                                    </tr>
-
-                                    <tr>
-                                        <th scope="row">Full Name:</th>
-                                        <td>CG03LH0199_N</td>
                                     </tr>
 
                                 </tbody>
@@ -252,10 +249,10 @@
                         <div class="card-body">
                             <h5 class="card-title">Available Data</h5>
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item"><i class="bi bi-cloud-sun"></i> <a href="#climatic">Climatic Data Available</a></li>
-                                <li class="list-group-item"><i class="bi bi-map"></i> <a href="#topographical">Topographical Data Available</a></li>
-                                <li class="list-group-item"><i class="bi bi-layers"></i> <a href="#geological">Geological Data Available</a></li>
-                                <li class="list-group-item"><i class="bi bi-tree"></i> <a href="#lulc">Land Use & Vegetation Data Available</a></li>
+                                <li class="list-group-item"><i class="bi bi-cloud-sun"></i> <a href="#climatic">Climatic Attributes Available</a></li>
+                                <li class="list-group-item"><i class="bi bi-map"></i> <a href="#topographical">Topographical Attributes Available</a></li>
+                                <li class="list-group-item"><i class="bi bi-layers"></i> <a href="#geological">Geological Attributes Available</a></li>
+                                <li class="list-group-item"><i class="bi bi-tree"></i> <a href="#lulc">LULC Attributes Available</a></li>
 
                             </ul>
                         </div>
@@ -265,7 +262,7 @@
         </div>
 
         <div class="section" id="topographical">
-            <h2><i class="bi bi-map"></i> Topographical Data</h2>
+            <h2><i class="bi bi-map"></i> Topographical Attributes</h2>
 
             <div class="row mb-4">
                 <div class="col-12">
@@ -284,10 +281,9 @@
                     </div>
                 </div>
             </div>
-        </div>
 
         <div class="section" id="climatic">
-            <h2><i class="bi bi-cloud-sun"></i> Climatic Data</h2>
+            <h2><i class="bi bi-cloud-sun"></i> Climatic Attributes</h2>
             
             <div class="row mb-4">
 
@@ -336,11 +332,11 @@
                 <div class="col-12 mb-4">
                     <div class="card">
                         <div class="card-header">
-                            <h5>Yearly Average Precipitation</h5>
+                            <h5>Annual Precipitation</h5>
                         </div>
                         <div class="card-body">
-                            <img src="images/precip_NEEMGAON_TANK.webp" class="img-fluid" alt="Yearly Average Precipitation">
-                            <p class="mt-2">Annual average precipitation values measured in millimeters.</p>
+                            <img src="images/precip_NEEMGAON_TANK.webp" class="img-fluid" alt="Annual Precipitation">
+                            <p class="mt-2"></p>
                         </div>
                     </div>
                 </div>
@@ -348,11 +344,11 @@
                 <div class="col-12 mb-4">
                     <div class="card">
                         <div class="card-header">
-                            <h5>Yearly Average Evaporation</h5>
+                            <h5>Annual Evaporation</h5>
                         </div>
                         <div class="card-body">
-                            <img src="images/evap_NEEMGAON_TANK.webp" class="img-fluid" alt="Yearly Average Evaporation">
-                            <p class="mt-2">Annual average evaporation measurements.</p>
+                            <img src="images/evap_NEEMGAON_TANK.webp" class="img-fluid" alt="Annual Evaporation">
+                            <p class="mt-2"></p>
                         </div>
                     </div>
                 </div>
@@ -360,11 +356,11 @@
                 <div class="col-12 mb-4">
                     <div class="card">
                         <div class="card-header">
-                            <h5>Yearly Average Wind Speed</h5>
+                            <h5>Annual Mean Wind Speed</h5>
                         </div>
                         <div class="card-body">
-                            <img src="images/wind_NEEMGAON_TANK.webp" class="img-fluid" alt="Yearly Average Wind Speed">
-                            <p class="mt-2">Annual average wind speed measurements.</p>
+                            <img src="images/wind_NEEMGAON_TANK.webp" class="img-fluid" alt="Annual Mean Wind Speed">
+                            <p class="mt-2"></p>
                         </div>
                     </div>
                 </div>
@@ -372,11 +368,11 @@
                 <div class="col-12 mb-4">
                     <div class="card">
                         <div class="card-header">
-                            <h5>Yearly Average Temperatures</h5>
+                            <h5>Annual Mean Temperatures</h5>
                         </div>
                         <div class="card-body">
-                            <img src="images/temp_NEEMGAON_TANK.webp" class="img-fluid" alt="Yearly Average Temperatures">
-                            <p class="mt-2">Annual average maximum and minimum temperature values in degrees Celsius.</p>
+                            <img src="images/temp_NEEMGAON_TANK.webp" class="img-fluid" alt="Annual Mean Temperatures">
+                            <p class="mt-2"></p>
                         </div>
                     </div>
                 </div>
@@ -384,7 +380,7 @@
         </div>
 
         <div class="section" id="geological">
-            <h2><i class="bi bi-layers"></i> Geological Data</h2>
+            <h2><i class="bi bi-layers"></i> Geological Attributes</h2>
 
             <div class="card mb-4">
                 <div class="card-header">
@@ -400,7 +396,7 @@
                                     <div class="card text-center">
                                         <div class="card-body">
                                             <h6>Average Level</h6>
-                                            <div class="stat-value text-primary">5.22</div>
+                                            <div class="stat-value text-primary">5.22 m</div>
                                         </div>
                                     </div>
                                 </div>
@@ -408,7 +404,7 @@
                                     <div class="card text-center">
                                         <div class="card-body">
                                             <h6>Maximum Level</h6>
-                                            <div class="stat-value text-success">6.98</div>
+                                            <div class="stat-value text-success">6.98 m</div>
                                         </div>
                                     </div>
                                 </div>
@@ -416,7 +412,7 @@
                                     <div class="card text-center">
                                         <div class="card-body">
                                             <h6>Minimum Level</h6>
-                                            <div class="stat-value text-danger">3.49</div>
+                                            <div class="stat-value text-danger">3.49 m</div>
                                         </div>
                                     </div>
                                 </div>
@@ -428,7 +424,7 @@
         </div>
 
         <div class="section" id="lulc">
-            <h2><i class="bi bi-tree"></i> Land Use & Vegetation Data</h2>
+            <h2><i class="bi bi-tree"></i> LULC Attributes</h2>
 
             <div class="row">
                 <div class="col-12">
@@ -471,18 +467,15 @@
             </div>
         </div>
 
-        <footer class="pt-3 my-4 text-muted border-top">
-            <div class="row">
-                <div class="col-md-6">
-                    <p>Report generated on 2025-05-20 at 17:08:04</p>
-                </div>
-                <div class="col-md-6 text-md-end">
-                    <p>HydroLab Dam Analysis Project</p>
-                </div>
-            </div>
-        </footer>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script>
+    document.getElementById('download-pdf-btn').addEventListener('click', function () {
+        window.print();
+    });
+    </script>
 </body>
 </html>
